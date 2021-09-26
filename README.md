@@ -18,4 +18,5 @@ App para estudo do Flutter.
 - Firebase
 - Carregar imagem do dispositovo ou camera
 
-![alt text](https://resizedimgs.vivareal.com/fit-in/870x653/vr.images.sp/7b15e6b0e4e8326854bf84cd710f9664.jpg)
+![image](assets/mobile.JPG)
+![image](assets/mobile2.JPG)
