@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/constants/rotas.dart';
 import 'package:todo/models/tarefa_model.dart';
+import 'package:todo/pages/editar_page.dart';
 import 'package:todo/repositories/favoritos_provider.dart';
 import 'package:todo/repositories/tarefas_provider.dart';
 import 'detalhes_page.dart';
@@ -78,12 +79,17 @@ class _HomePageState extends State<HomePage> {
                       ? const CircleAvatar(child: Icon(Icons.check))
                       : GestureDetector(
                           onTap: () {
-                            Provider.of<TarefasPROVIDER>(context, listen: false)
-                                .remover(tarefas[i]);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EditarPage(index: i),
+                                settings: RouteSettings(arguments: tarefas[i]),
+                              ),
+                            );
                           },
                           child: const CircleAvatar(
-                              backgroundColor: Colors.red,
-                              child: Icon(Icons.delete, color: Colors.white))),
+                              backgroundColor: Colors.green,
+                              child: Icon(Icons.edit, color: Colors.white,))),
                   title: Row(
                     children: [
                       Text(
@@ -101,9 +107,12 @@ class _HomePageState extends State<HomePage> {
                   ),
                   trailing: GestureDetector(
                     onTap: () {
-                      Provider.of<TarefasPROVIDER>(context, listen: false).isFeito(tarefas[i]);
+                      Provider.of<TarefasPROVIDER>(context, listen: false)
+                          .isFeito(tarefas[i]);
                     },
-                    child: tarefas[i].feito ? Icon(Icons.done_all, color: Colors.green[500]) : const Icon(Icons.remove_done),
+                    child: tarefas[i].feito
+                        ? Icon(Icons.done_all, color: Colors.green[500])
+                        : const Icon(Icons.remove_done),
                   ),
                   onTap: () => Navigator.push(
                       context,

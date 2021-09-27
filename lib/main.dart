@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:todo/constants/rotas.dart';
 import 'package:todo/pages/adicionar_page.dart';
 import 'package:todo/pages/detalhes_page.dart';
+import 'package:todo/pages/editar_page.dart';
 import 'package:todo/pages/favoritos_page.dart';
 import 'package:todo/pages/home_page.dart';
 import 'package:todo/pages/toggle_page.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
           AppRoutes.HOME_PAGE: (context) => const HomePage(),
           AppRoutes.DETALHES_PAGE: (context) => const DetalhesPage(),
           AppRoutes.FAVORITOS_PAGE: (context) => const FavoritosPage(),
+          AppRoutes.EDITAR_PAGE: (context) => const EditarPage(),
         },
       ),
     );

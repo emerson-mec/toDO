@@ -6,4 +6,5 @@ class AppRoutes {
   static const ADICIONAR_TAREFA_PAGE = '/adicionar_tarefa';
   static const DETALHES_PAGE = '/detalhes_page';
   static const FAVORITOS_PAGE = '/favoritos_page';
+  static const EDITAR_PAGE = '/editar_page';
 }

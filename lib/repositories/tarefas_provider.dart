@@ -4,7 +4,8 @@ import 'package:todo/models/tarefa_model.dart';
 class TarefasPROVIDER extends ChangeNotifier {
   final List<TarefaMODEL> _tarefas = <TarefaMODEL>[
     TarefaMODEL(
-      imagem: 'https://img.elo7.com.br/product/zoom/FBCE34/adesivo-paisagem-praia-decorando-com-adesivos.jpg',
+      imagem:
+          'https://img.elo7.com.br/product/zoom/FBCE34/adesivo-paisagem-praia-decorando-com-adesivos.jpg',
       descricao: 'Aqui uma descrição',
       feito: false,
       nome: 'Estudar',
@@ -25,6 +26,15 @@ class TarefasPROVIDER extends ChangeNotifier {
 
   isFeito(TarefaMODEL tarefa) {
     tarefa.feito = !tarefa.feito;
+    notifyListeners();
+  }
+
+  editar(TarefaMODEL tarefa, int index) {
+    _tarefas[index] = TarefaMODEL(
+      nome: tarefa.nome,
+      descricao: tarefa.descricao,
+      imagem: tarefa.imagem,
+    );
     notifyListeners();
   }
 }

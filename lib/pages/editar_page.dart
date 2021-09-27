@@ -3,17 +3,19 @@ import 'package:provider/provider.dart';
 import 'package:todo/models/tarefa_model.dart';
 import 'package:todo/repositories/tarefas_provider.dart';
 
-class AdicionarPage extends StatefulWidget {
-  const AdicionarPage({Key? key}) : super(key: key);
+class EditarPage extends StatefulWidget {
+  final int? index;
+
+ const EditarPage({this.index, Key? key}) : super(key: key);
 
   @override
-  State<AdicionarPage> createState() => _AdicionarPageState();
+  State<EditarPage> createState() => _EditarPageState();
 }
 
-class _AdicionarPageState extends State<AdicionarPage> {
+class _EditarPageState extends State<EditarPage> {
   final GlobalKey<FormState> _formKey = GlobalKey();
 
-  final TextEditingController _tarefaEC = TextEditingController();
+  final TextEditingController _nomeEC = TextEditingController();
   final TextEditingController _descricaoEC = TextEditingController();
   final TextEditingController _imagemEC = TextEditingController();
 
@@ -22,22 +24,34 @@ class _AdicionarPageState extends State<AdicionarPage> {
       _formKey.currentState!.save();
 
       TarefaMODEL tarefa = TarefaMODEL(
-        nome: _tarefaEC.text,
+        nome: _nomeEC.text,
         descricao: _descricaoEC.text,
         imagem: _imagemEC.text == ''
             ? 'https://www.inovegas.com.br/site/wp-content/uploads/2017/08/sem-foto.jpg'
             : _imagemEC.text,
-        
       );
 
-      Provider.of<TarefasPROVIDER>(context, listen: false).adicionar(tarefa);
+
+      Provider.of<TarefasPROVIDER>(context, listen: false).editar(tarefa, widget.index!);
       //Fechar teclado.
       FocusScope.of(context).unfocus();
 
       Navigator.of(context).pop();
 
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Salvo com Sucesso!!!')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Alterado com Sucesso!!!')));
     }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final tarefa = ModalRoute.of(context)!.settings.arguments as TarefaMODEL;
+
+    _nomeEC.text = tarefa.nome.toString();
+    _descricaoEC.text = tarefa.descricao.toString();
+    _imagemEC.text = tarefa.imagem.toString();
   }
 
   bool isValidImageUrl(String url) {
@@ -53,7 +67,7 @@ class _AdicionarPageState extends State<AdicionarPage> {
 
   @override
   void dispose() {
-    _tarefaEC.dispose();
+    _nomeEC.dispose();
     _descricaoEC.dispose();
     super.dispose();
   }
@@ -70,7 +84,7 @@ class _AdicionarPageState extends State<AdicionarPage> {
             child: Column(
               children: [
                 TextFormField(
-                  controller: _tarefaEC,
+                  controller: _nomeEC,
                   decoration: const InputDecoration(labelText: 'Tarefa'),
                   validator: (String? value) {
                     if (value!.isEmpty) {
