@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo/configs/app_settings.dart';
 import 'package:todo/constants/rotas.dart';
 import 'package:todo/pages/adicionar_page.dart';
 import 'package:todo/pages/detalhes_page.dart';
@@ -24,13 +25,13 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => TarefasPROVIDER()),
         ChangeNotifierProvider(create: (_) => FavoritosProvider()),
+        ChangeNotifierProvider(create: (_) => AppSettings()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(primarySwatch: Colors.blue),
-       
-       initialRoute: AppRoutes.TOGGLE_PAGE,
+        initialRoute: AppRoutes.TOGGLE_PAGE,
         routes: {
           AppRoutes.TOGGLE_PAGE: (context) => const TogglePage(),
           AppRoutes.ADICIONAR_TAREFA_PAGE: (context) => const AdicionarPage(),

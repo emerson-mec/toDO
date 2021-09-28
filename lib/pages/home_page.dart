@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo/configs/app_settings.dart';
 import 'package:todo/constants/rotas.dart';
 import 'package:todo/models/tarefa_model.dart';
 import 'package:todo/pages/editar_page.dart';
@@ -17,20 +18,34 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<TarefaMODEL> selecionadas = [];
   //
+
+  bool? temaBar;
+
+  temaAppBar() {
+    temaBar = context.watch<AppSettings>().tema;
+  }
+
   @override
   Widget build(BuildContext context) {
+    temaAppBar();
     //
     TarefasPROVIDER tarefasRAW = Provider.of<TarefasPROVIDER>(context);
     List<TarefaMODEL> tarefas = tarefasRAW.tarefas;
-    FavoritosProvider favoritasProvider =
-        Provider.of<FavoritosProvider>(context);
+    FavoritosProvider favoritasProvider = Provider.of<FavoritosProvider>(context);
     //
 
     //FUNÇÕES
     AppBar appBarDinamico() {
       return selecionadas.isEmpty
           ? AppBar(
+              backgroundColor: temaBar! ? Colors.black87 : Colors.blue,
               actions: [
+                IconButton(
+                    icon: const Icon(Icons.brightness_6_sharp),
+                    tooltip: 'Alterar Tema',
+                    onPressed: () {
+                      Provider.of<AppSettings>(context, listen: false).setTema(!temaBar!);
+                    }),
                 IconButton(
                   icon: const Icon(Icons.add),
                   tooltip: 'Adicionar tarefa',
@@ -65,9 +80,11 @@ class _HomePageState extends State<HomePage> {
             );
     }
 
+    //print(temaBar);
     return Scaffold(
       appBar: appBarDinamico(),
       //
+      backgroundColor: temaBar! ? Colors.black45 : Colors.white,
       body: tarefas.isNotEmpty
           ? ListView.separated(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -89,36 +106,22 @@ class _HomePageState extends State<HomePage> {
                           },
                           child: const CircleAvatar(
                               backgroundColor: Colors.green,
-                              child: Icon(Icons.edit, color: Colors.white,))),
-                  title: Row(
-                    children: [
-                      Text(
-                        '${tarefas[i].nome}',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
+                              child: Icon(
+                                Icons.edit,
+                                color: Colors.white,
+                              ))),
+                  title: Row(children: [Text('${tarefas[i].nome}',style: const TextStyle(fontWeight: FontWeight.bold),),
                       if (favoritasProvider.favoritosList.contains(tarefas[i]))
                         const Icon(Icons.star, color: Colors.amber, size: 15)
                     ],
                   ),
-                  subtitle: Text(
-                    '${tarefas[i].descricao}',
-                    maxLines: 2,
-                    overflow: TextOverflow.fade,
-                  ),
-                  trailing: GestureDetector(
-                    onTap: () {
-                      Provider.of<TarefasPROVIDER>(context, listen: false)
-                          .isFeito(tarefas[i]);
-                    },
+                  subtitle: Text('${tarefas[i].descricao}',maxLines: 2,overflow: TextOverflow.fade,),
+                  trailing: GestureDetector(onTap: () {Provider.of<TarefasPROVIDER>(context, listen: false).isFeito(tarefas[i]);},
                     child: tarefas[i].feito
                         ? Icon(Icons.done_all, color: Colors.green[500])
                         : const Icon(Icons.remove_done),
                   ),
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              DetalhesPage(tarefa: tarefas[i]))),
+                  onTap: () => Navigator.push(context,MaterialPageRoute(builder: (context) =>DetalhesPage(tarefa: tarefas[i]))),
                   selected: selecionadas.contains(tarefas[i]),
                   selectedTileColor: Colors.blue[100],
                   onLongPress: () {

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
+import 'package:todo/configs/app_settings.dart';
 import 'package:todo/pages/favoritos_page.dart';
 import 'package:todo/pages/home_page.dart';
 
@@ -19,9 +21,15 @@ class _TogglePageState extends State<TogglePage> {
     super.initState();
   }
 
+  bool? temaBar;
+
+  temaAppBar() {
+    temaBar = context.watch<AppSettings>().tema;
+  }
+
   @override
   Widget build(BuildContext context) {
-    
+    temaAppBar();
     return Scaffold(
       body: PageView(
         controller: _pc,
@@ -38,13 +46,16 @@ class _TogglePageState extends State<TogglePage> {
         },
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: temaBar! ? Colors.black54 : Colors.white,
+        elevation: temaBar! ? 0 : 20,
         currentIndex: _paginaAtual,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Todas'),
           BottomNavigationBarItem(icon: Icon(Icons.star), label: 'Favoritas'),
         ],
         onTap: (int pagina) {
-          _pc.animateToPage(pagina, duration: const Duration(milliseconds: 300), curve: Curves.ease);
+          _pc.animateToPage(pagina,
+              duration: const Duration(milliseconds: 200), curve: Curves.ease);
         },
       ),
     );
