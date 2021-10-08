@@ -25,8 +25,5 @@ class AppSettings extends ChangeNotifier {
     notifyListeners();
   }
  
-  setTema(bool boolTema) async {
-    await _prefs.setBool('themeAppBar', boolTema);
-    await _readTema();
-  }
+  
 }

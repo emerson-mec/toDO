@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/models/tarefa_model.dart';
-import 'package:todo/repositories/tarefas_provider.dart';
+import 'package:todo/repositories/tarefas_repository.dart';
 
 class EditarPage extends StatefulWidget {
   final int? index;

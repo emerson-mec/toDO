@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/models/tarefa_model.dart';
-import 'package:todo/repositories/favoritos_provider.dart';
+import 'package:todo/repositories/favoritos_repository.dart';
 
 import 'detalhes_page.dart';
 

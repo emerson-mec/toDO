@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/src/provider.dart';
-import 'package:todo/configs/app_settings.dart';
 import 'package:todo/pages/favoritos_page.dart';
 import 'package:todo/pages/home_page.dart';
 
@@ -23,13 +21,10 @@ class _TogglePageState extends State<TogglePage> {
 
   bool? temaBar;
 
-  temaAppBar() {
-    temaBar = context.watch<AppSettings>().tema;
-  }
+  
 
   @override
   Widget build(BuildContext context) {
-    temaAppBar();
     return Scaffold(
       body: PageView(
         controller: _pc,
